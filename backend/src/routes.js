@@ -1,8 +1,8 @@
 const { Router } = require('express');
+const DevController = require('./controllers/DevController');
+const SearchController = require ('./controllers/SearchController');
 
 const routes = Router();
-
-const axios = require('axios');
 
 //Tipos de parametros:
 
@@ -20,18 +20,9 @@ const axios = require('axios');
 //     return response.json({ message: 'Hello World!'});
 // });
 
-routes.post('/devs', async (request, response) => {
-    console.log(request.body);
-    
-    const { github_username, techs } = request.body;
+routes.get('/devs', DevController.index);
+routes.post('/devs', DevController.store );
 
-    const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
-    
-    const { name = login, avatar_url, bio} = apiResponse.data;
-
-    console.log(name, avatar_url, bio, github_username);
-
-    return response.json({ message: 'Hello World!'});
-});
+routes.get('/search', SearchController.index);
 
 module.exports = routes;
